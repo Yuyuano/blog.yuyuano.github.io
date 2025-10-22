@@ -20,7 +20,7 @@
     "dayTheme":"light",
     "nightTheme":"dark_colorblind",
     "urlMode":"pinyin",
-    "style":"https://raw.githubusercontent.com/Yuyuano/yuyuano.github.io/main/img/bg.png",
+    "style":"body{background:url(https://raw.githubusercontent.com/Yuyuano/yuyuano.github.io/main/img/bg.png) center/cover fixed;}",
     "script":"",
     "head":"",
     "allHead":"",
