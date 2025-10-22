@@ -10,7 +10,7 @@
     "startSite":"10/20/2025",
     "onePageListNum":15,
     "singlePage":["about"],
-    "iconList":{"music":"M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Z"},
+    "iconList":{"music":"M8 1a1 1 0 0 1 1 1v3.33L11 5.5a1 1 0 0 1 .87 1.73l-2 1.14A1 1 0 0 1 9 8.06V13a1 1 0 1 1-2 0V8.06a1 1 0 0 1-.87-.69l-2-1.14A1 1 0 0 1 5 5.5L6 5.33V2a1 1 0 0 1 1-1z"},
     "exlink":{"music":"https://music.163.com/playlist?id=7031893623&uct2=U2FsdGVkX19yetMscQnVQbS+7aOn+IV4y6kFUe03jd4="},
     "commentLabelColor":"#006b75",
     "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
