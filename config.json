@@ -24,7 +24,7 @@
     "script":"<script src='https://blog.154451.xyz/assets/cat_backtotop.js'></script><script src='https://blog.154451.xyz/assets/lazyload.js'></script><script src='https://blog.154451.xyz/assets/viewimg.js'></script><script src='https://blog.154451.xyz/assets/subtitle_id.js'></script>",
     "indexScript":"<script src='https://blog.154451.xyz/assets/NumPagination.js'></script>",
     "head":"",
-    "allHead":"",
+    "allHead":"<script src='https://blog.154451.xyz/assets/GmeekBSZ.js'></script><script src='https://blog.154451.xyz/assets/yifantheme.js'></script><script src='https://blog.154451.xyz/assets/live2d.js'></script>",
     "indexStyle":"",
     "indexScript":"",
     "showPostSource":1,
