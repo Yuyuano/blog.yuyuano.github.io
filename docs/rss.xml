@@ -1,5 +1,37 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Thu, 23 Oct 2025 09:51:18 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>计算1-100数字</title><link>http://blog.yuzhiyuan.top/post/ji-suan-1-100-shu-zi.html</link><description># 计算1-100数字的和，奇数和，偶数和
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Thu, 23 Oct 2025 10:28:46 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>计算1-100数字（While循环写法）</title><link>http://blog.yuzhiyuan.top/post/ji-suan-1-100-shu-zi-%EF%BC%88While-xun-huan-xie-fa-%EF%BC%89.html</link><description># 此篇为While循环写法
+### 总和
+```python
+number = 1
+total = 0 #计数器
+while number &lt;= 100: #循环执行条件：直到number小于等于100时
+    total += number #使每一次循环的number值加到一起
+    number += 1
+print(total)
+```
+&gt;[!CAUTION]
+必须额外加一个计数器，不然使用number += number的话会使数字逐个翻倍
+### 奇数和
+```python
+number = 1
+total_odd = 0  # 奇数和计数器
+while number &lt;= 99:
+    total_odd += number
+    number += 2  # 每次加2，只取奇数
+print('奇数和：', total_odd)
+```
+### 偶数和
+``` python
+number = 2
+total_even = 0  # 偶数和计数器
+while number &lt;= 100:
+    total_even += number
+    number += 2  # 每次加2，只取偶数
+print('偶数和：', total_even)
+```
+&gt;[!NOTE]
+其实和**For循环**两者之间并没有什么太大的差别，计算步骤完全一样，只是**While循环**需要判断循环条件，而**For循环**只需要历遍给出来的值就行了
+&gt;。</description><guid isPermaLink="true">http://blog.yuzhiyuan.top/post/ji-suan-1-100-shu-zi-%EF%BC%88While-xun-huan-xie-fa-%EF%BC%89.html</guid><pubDate>Thu, 23 Oct 2025 10:25:44 +0000</pubDate></item><item><title>计算1-100数字</title><link>http://blog.yuzhiyuan.top/post/ji-suan-1-100-shu-zi.html</link><description># 计算1-100数字的和，奇数和，偶数和
 ### 这是计算1-100和的Python代码，使用**For循环**写（问就是不知道while循环咋写了😗）
 ```python
 total = 0 #创建计数器
