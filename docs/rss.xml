@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Fri, 24 Oct 2025 10:03:56 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>抽卡模拟</title><link>http://blog.yuzhiyuan.top/post/chou-qia-mo-ni.html</link><description># 基于明日方舟的抽卡概率做的抽卡模拟
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Fri, 24 Oct 2025 12:17:18 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>抽卡模拟</title><link>http://blog.yuzhiyuan.top/post/chou-qia-mo-ni.html</link><description># 基于明日方舟的抽卡概率做的抽卡模拟
 ```
 术语表：
 | 名词  | 对应机制               |
@@ -106,98 +106,106 @@ for i in range(chou):
 ```
 
 ### 集大成者完整版（拥有随抽数增加保底概率增加，会歪，有统计功能0）
+&gt;[!CAUTION]
+因为以下代码会创建**json文件**来保存数据，所以请勿在**python在线编辑器**来运行此代码
+&gt;
 ```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+'''
+明日方舟限定 UP 池模拟器（软保底 + 300 抽天井）
+'''
+
+import os
+import json
 import random
 from collections import Counter
 
-# ========== 参数 ==========
-UP_NAME = '影焰·苇草'      # 当期 UP 六星
-N = int(input('抽多少发？：'))
+# ========== 用户可改参数 ==========
+UP_NAME = '影焰·苇羽'      # 当期 UP 六星
+SAVE_FILE = 'arknights_pity.json'  # 存盘文件
+# ==================================
 
-# ========== 核心抽卡 ==========
-def gacha(pity):
-    '''返回 (结果, 新pity, 是否出六星)'''
-    # 软保底：50 抽后每抽 +2%
-    six_rate = 2 + max(0, pity - 49) * 2
-    six_rate = min(six_rate, 100)
+# ---------- 工具：读档 ----------
+def load_data():
+    if os.path.exists(SAVE_FILE):
+        with open(SAVE_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return {'total': 0, 'pity': 0}   # 首次运行
 
-    r = random.randint(1, 100)
-    if r &lt;= six_rate:                       # 出六星
+# ---------- 工具：写档 ----------
+def save_data(total, pity):
+    with open(SAVE_FILE, 'w', encoding='utf-8') as f:
+        json.dump({'total': total, 'pity': pity}, f, ensure_ascii=False)
+
+# ---------- 核心抽卡 ----------
+def pull_once(pity):
+    '''返回 (结果字符串, 新pity, 是否六星)'''
+    # 1. 六星软保底
+    six_prob = min(2 + max(0, pity - 49) * 2, 100)
+    if random.randint(1, 100) &lt;= six_prob:
         up_or_ng = random.choices(['UP', '歪'], weights=[70, 30])[0]
         return (f'六星·{UP_NAME}' if up_or_ng == 'UP' else '六星·常驻'), 0, True
-    elif r &lt;= 8:                            # 五星
+
+    # 2. 五星
+    if random.randint(1, 100) &lt;= 8:
         return '五星', pity + 1, False
-    elif r &lt;= 50:                           # 四星
+
+    # 3. 四星
+    if random.randint(1, 100) &lt;= 50:
         return '四星', pity + 1, False
-    else:                                   # 三星
-        return '三星', pity + 1, False
 
-# ========== 开抽 ==========
-pity = 0
-record = []
-first_6 = None
-last_6 = None
-six_count = 0
-guarantee_300 = False
+    # 4. 三星
+    return '三星', pity + 1, False
 
-for i in range(1, N + 1):
-    result, pity, is_6 = gacha(pity)
-    record.append(result)
-    if is_6:
-        six_count += 1
-        if first_6 is None:
-            first_6 = i
-        last_6 = i
-    if i == 300 and not guarantee_300:
-        guarantee_300 = True
-        print('\n&gt;&gt;&gt; 已达成 300 抽，可直接兑换当期 UP 六星！（默认帮你兑换了）&lt;&lt;&lt;')
-# ========== 天井补发 ==========
-c = Counter(record)          # 前面已有的行
-if guarantee_300 and c[f'六星·{UP_NAME}'] == 0:
-    c[f'六星·{UP_NAME}'] += 1
-    six_count += 1
-    record.append(f'六星·{UP_NAME}(300抽兑换)')
+# ---------- 主流程 ----------
+def main():
+    data = load_data()
+    total_hist = data['total']  # 历史总抽数
+    pity = data['pity']         # 距上次六星垫抽
 
-# ========== 输出 ==========
-print('\n===== 抽卡结果 =====')
-for idx, res in enumerate(record, 1):
-    print(f'{idx:3d} | {res}')
+    n = int(input('本次抽多少发？：'))
 
-# ========== 统计 ==========
-c = Counter(record)
-print('\n===== 统计 =====')
-for k, v in c.items():
-    print(f'{k}: {v} 张')
-print(f'\n总计六星: {six_count} 张')
-print(f'UP 六星: {c.get(f'六星·{UP_NAME}', 0)} 张')
-print(f'歪六星: {c.get('六星·常驻', 0)} 张')
-if first_6:
-    print(f'最早六星: 第 {first_6} 抽')
-    print(f'最晚六星: 第 {last_6} 抽')
-else:
-    print('本次未出六星')
-print(f'当前垫抽数: {pity}')
-```
-运行结果差不多如下
-```txt
-===== 抽卡结果 =====
-  1 | 三星
-  2 | 三星
- ...
- 29 | 六星·常驻
- 30 | 三星
+    print('\n===== 抽卡开始 =====')
+    record = []
+    first_6 = None
+    last_6 = None
+    six_count = 0
 
-===== 统计 =====
-三星: 25 张
-四星: 3 张
-五星: 1 张
-六星·苇草: 1 张（300井兑换）
-六星·常驻: 1 张
-总计六星: 1 张
-最早六星: 第 29 抽
-当前垫抽数: 1
-```
-说实话，这玩意看的我都头痛（拿AI搞得）😗，没事，只要搞熟了你也行。</description><guid isPermaLink="true">http://blog.yuzhiyuan.top/post/chou-qia-mo-ni.html</guid><pubDate>Fri, 24 Oct 2025 09:53:39 +0000</pubDate></item><item><title>猜数字</title><link>http://blog.yuzhiyuan.top/post/cai-shu-zi.html</link><description># 用 while 循环写个命令行猜数字游戏
+    for i in range(1, n + 1):
+        result, pity, is6 = pull_once(pity)
+        record.append(result)
+        print(f'{i:3d} | {result}')
+        if is6:
+            six_count += 1
+            if first_6 is None:
+                first_6 = i
+            last_6 = i
+
+    total_hist += n
+
+    # ---------- 统计 ----------
+    c = Counter(record)
+    print('\n===== 统计 =====')
+    for k, v in c.items():
+        print(f'{k}: {v} 张')
+    print(f'\n总计六星: {six_count} 张')
+    print(f'UP 六星: {c.get(f'六星·{UP_NAME}', 0)} 张')
+    print(f'歪六星: {c.get('六星·常驻', 0)} 张')
+    if first_6:
+        print(f'最早六星: 第 {first_6} 抽')
+        print(f'最晚六星: 第 {last_6} 抽')
+    print(f'当前垫抽: {pity}')
+    print(f'历史累计: {total_hist} 抽')
+
+    # ---------- 天井检查 ----------
+    if total_hist &gt;= 300:
+        print(f'\n&gt;&gt;&gt; 累计已 {total_hist} 抽，可兑换当期 UP 六星「{UP_NAME}」！&lt;&lt;&lt;')
+        total_hist = 0  # 兑换后清零
+
+    # ---------- 存盘 ----------
+    save_data(total_hist, pity)
+    print('\n数据已保存，下次继续累计。</description><guid isPermaLink="true">http://blog.yuzhiyuan.top/post/chou-qia-mo-ni.html</guid><pubDate>Fri, 24 Oct 2025 09:53:39 +0000</pubDate></item><item><title>猜数字</title><link>http://blog.yuzhiyuan.top/post/cai-shu-zi.html</link><description># 用 while 循环写个命令行猜数字游戏
 猜数字代码依靠while循环来实现
 ```python
 import random #加入random随机数
