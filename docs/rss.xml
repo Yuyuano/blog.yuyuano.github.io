@@ -1,5 +1,31 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Thu, 23 Oct 2025 14:36:46 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>计算1-100数字（While循环写法）</title><link>http://blog.yuzhiyuan.top/post/ji-suan-1-100-shu-zi-%EF%BC%88While-xun-huan-xie-fa-%EF%BC%89.html</link><description># 此篇为While循环写法
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Fri, 24 Oct 2025 08:49:17 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>猜数字</title><link>http://blog.yuzhiyuan.top/post/cai-shu-zi.html</link><description># 用 while 循环写个命令行猜数字游戏
+猜数字代码依靠while循环来实现
+```python
+import random #加入random随机数
+number = random.randint(1,100) #让number在1-100里面随机一个数
+cishu = 10 #计数器，计算剩余猜测次数
+number_user = int(input('猜一个1-100的数字：'))
+while True:
+    if number == number_user:
+        print('答对了')
+        break
+    if cishu == 1: #如果次数用完，失败并且break
+        print('次数用完了，失败了，正确答案为',number)
+        break
+    else:        #判断数字大小
+        cishu -= 1
+        if number_user &gt; number:
+            print(f'大了，你还有{cishu}次机会')
+            number_user = int(input())
+        else:
+            print(f'小了，你还有{cishu}次机会')
+            number_user = int(input())
+```
+&gt;[!CAUTION]
+循环里最后一次判断之前已经减 1，所以要把 `cishu == 1` 作为最后一次机会，否则实际会多给一次
+&gt;
+如果你想要 `if cishu == 0` 就刚好用完**break**的话要么把 `cishu = 10 `改为9或者将`cishu -= 1`放在**else**外面，放在**while**里面。</description><guid isPermaLink="true">http://blog.yuzhiyuan.top/post/cai-shu-zi.html</guid><pubDate>Fri, 24 Oct 2025 08:48:43 +0000</pubDate></item><item><title>计算1-100数字（While循环写法）</title><link>http://blog.yuzhiyuan.top/post/ji-suan-1-100-shu-zi-%EF%BC%88While-xun-huan-xie-fa-%EF%BC%89.html</link><description># 此篇为While循环写法
 ### 总和
 ```python
 number = 1
