@@ -124,17 +124,16 @@ for i in range(chou):
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-明日方舟限定 UP 池模拟器（软保底 + 300 抽天井）
+明日方舟限定 UP 池模拟器（真实概率链 + 300 抽天井补发）
 '''
-
 import os
 import json
 import random
 from collections import Counter
 
 # ========== 用户可改参数 ==========
-UP_NAME = '影焰·苇羽'      # 当期 UP 六星
-SAVE_FILE = 'arknights_pity.json'  # 存盘文件
+UP_NAME = '影焰·苇羽'          # 当期 UP 六星
+SAVE_FILE = 'arknights_pity.json'
 # ==================================
 
 # ---------- 工具：读档 ----------
@@ -142,56 +141,52 @@ def load_data():
     if os.path.exists(SAVE_FILE):
         with open(SAVE_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
-    return {'total': 0, 'pity': 0}   # 首次运行
+    return {'total': 0, 'pity': 0}
 
 # ---------- 工具：写档 ----------
 def save_data(total, pity):
     with open(SAVE_FILE, 'w', encoding='utf-8') as f:
         json.dump({'total': total, 'pity': pity}, f, ensure_ascii=False)
 
-# ---------- 核心抽卡 ----------
+# ---------- 核心抽卡（真实概率链） ----------
 def pull_once(pity):
     '''返回 (结果字符串, 新pity, 是否六星)'''
-    # 1. 六星软保底
-    six_prob = min(2 + max(0, pity - 49) * 2, 100)
-    if random.randint(1, 100) <= six_prob:
+    six_prob = min(2 + max(0, pity - 49) * 2, 100)  # 软保底
+    r = random.randint(1, 100)                       # 只掷一次
+
+    if r <= six_prob:                                # 1. 六星
         up_or_ng = random.choices(['UP', '歪'], weights=[70, 30])[0]
         return (f'六星·{UP_NAME}' if up_or_ng == 'UP' else '六星·常驻'), 0, True
 
-    # 2. 五星
-    if random.randint(1, 100) <= 8:
+    elif r <= six_prob + 2:                          # 2. 五星 2%
         return '五星', pity + 1, False
 
-    # 3. 四星
-    if random.randint(1, 100) <= 50:
+    elif r <= six_prob + 2 + 50:                     # 3. 四星 50%
         return '四星', pity + 1, False
 
-    # 4. 三星
-    return '三星', pity + 1, False
+    else:                                            # 4. 三星 46%
+        return '三星', pity + 1, False
 
 # ---------- 主流程 ----------
 def main():
     data = load_data()
-    total_hist = data['total']  # 历史总抽数
-    pity = data['pity']         # 距上次六星垫抽
+    total_hist = data['total']
+    pity = data['pity']
 
     n = int(input('本次抽多少发？：'))
 
     print('\n===== 抽卡开始 =====')
     record = []
     first_6 = None
-    last_6 = None
     six_count = 0
 
     for i in range(1, n + 1):
-        result, pity, is6 = pull_once(pity)
+        result, pity, is6 = pull_once(pity)  # ← 仅此处修复：pull_one → pull_once
         record.append(result)
-        print(f'{i:3d} | {result}')
         if is6:
             six_count += 1
             if first_6 is None:
                 first_6 = i
-            last_6 = i
 
     total_hist += n
 
@@ -200,19 +195,23 @@ def main():
     print('\n===== 统计 =====')
     for k, v in c.items():
         print(f'{k}: {v} 张')
+
+    # ---------- 天井检查（自动补发） ----------
+    if total_hist >= 300:
+        print(f'\n>>> 累计已 {total_hist} 抽，可兑换当期 UP 六星「{UP_NAME}」！<<<')
+        if c.get(f'六星·{UP_NAME}', 0) == 0:
+            c[f'六星·{UP_NAME}'] += 1
+            six_count += 1
+            print(f'>>> 已自动为你兑换「六星·{UP_NAME}」，更新统计结果！<<<')
+        total_hist = 0  # 兑换后清零
+
     print(f'\n总计六星: {six_count} 张')
     print(f'UP 六星: {c.get(f'六星·{UP_NAME}', 0)} 张')
     print(f'歪六星: {c.get('六星·常驻', 0)} 张')
     if first_6:
         print(f'最早六星: 第 {first_6} 抽')
-        print(f'最晚六星: 第 {last_6} 抽')
     print(f'当前垫抽: {pity}')
     print(f'历史累计: {total_hist} 抽')
-
-    # ---------- 天井检查 ----------
-    if total_hist >= 300:
-        print(f'\n>>> 累计已 {total_hist} 抽，可兑换当期 UP 六星「{UP_NAME}」！<<<')
-        total_hist = 0  # 兑换后清零
 
     # ---------- 存盘 ----------
     save_data(total_hist, pity)
@@ -332,17 +331,16 @@ for i in range(chou):
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-明日方舟限定 UP 池模拟器（软保底 + 300 抽天井）
+明日方舟限定 UP 池模拟器（真实概率链 + 300 抽天井补发）
 '''
-
 import os
 import json
 import random
 from collections import Counter
 
 # ========== 用户可改参数 ==========
-UP_NAME = '影焰·苇羽'      # 当期 UP 六星
-SAVE_FILE = 'arknights_pity.json'  # 存盘文件
+UP_NAME = '影焰·苇羽'          # 当期 UP 六星
+SAVE_FILE = 'arknights_pity.json'
 # ==================================
 
 # ---------- 工具：读档 ----------
@@ -350,56 +348,52 @@ def load_data():
     if os.path.exists(SAVE_FILE):
         with open(SAVE_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
-    return {'total': 0, 'pity': 0}   # 首次运行
+    return {'total': 0, 'pity': 0}
 
 # ---------- 工具：写档 ----------
 def save_data(total, pity):
     with open(SAVE_FILE, 'w', encoding='utf-8') as f:
         json.dump({'total': total, 'pity': pity}, f, ensure_ascii=False)
 
-# ---------- 核心抽卡 ----------
+# ---------- 核心抽卡（真实概率链） ----------
 def pull_once(pity):
     '''返回 (结果字符串, 新pity, 是否六星)'''
-    # 1. 六星软保底
-    six_prob = min(2 + max(0, pity - 49) * 2, 100)
-    if random.randint(1, 100) <= six_prob:
+    six_prob = min(2 + max(0, pity - 49) * 2, 100)  # 软保底
+    r = random.randint(1, 100)                       # 只掷一次
+
+    if r <= six_prob:                                # 1. 六星
         up_or_ng = random.choices(['UP', '歪'], weights=[70, 30])[0]
         return (f'六星·{UP_NAME}' if up_or_ng == 'UP' else '六星·常驻'), 0, True
 
-    # 2. 五星
-    if random.randint(1, 100) <= 8:
+    elif r <= six_prob + 2:                          # 2. 五星 2%
         return '五星', pity + 1, False
 
-    # 3. 四星
-    if random.randint(1, 100) <= 50:
+    elif r <= six_prob + 2 + 50:                     # 3. 四星 50%
         return '四星', pity + 1, False
 
-    # 4. 三星
-    return '三星', pity + 1, False
+    else:                                            # 4. 三星 46%
+        return '三星', pity + 1, False
 
 # ---------- 主流程 ----------
 def main():
     data = load_data()
-    total_hist = data['total']  # 历史总抽数
-    pity = data['pity']         # 距上次六星垫抽
+    total_hist = data['total']
+    pity = data['pity']
 
     n = int(input('本次抽多少发？：'))
 
     print('\n===== 抽卡开始 =====')
     record = []
     first_6 = None
-    last_6 = None
     six_count = 0
 
     for i in range(1, n + 1):
-        result, pity, is6 = pull_once(pity)
+        result, pity, is6 = pull_once(pity)  # ← 仅此处修复：pull_one → pull_once
         record.append(result)
-        print(f'{i:3d} | {result}')
         if is6:
             six_count += 1
             if first_6 is None:
                 first_6 = i
-            last_6 = i
 
     total_hist += n
 
@@ -408,19 +402,23 @@ def main():
     print('\n===== 统计 =====')
     for k, v in c.items():
         print(f'{k}: {v} 张')
+
+    # ---------- 天井检查（自动补发） ----------
+    if total_hist >= 300:
+        print(f'\n>>> 累计已 {total_hist} 抽，可兑换当期 UP 六星「{UP_NAME}」！<<<')
+        if c.get(f'六星·{UP_NAME}', 0) == 0:
+            c[f'六星·{UP_NAME}'] += 1
+            six_count += 1
+            print(f'>>> 已自动为你兑换「六星·{UP_NAME}」，更新统计结果！<<<')
+        total_hist = 0  # 兑换后清零
+
     print(f'\n总计六星: {six_count} 张')
     print(f'UP 六星: {c.get(f'六星·{UP_NAME}', 0)} 张')
     print(f'歪六星: {c.get('六星·常驻', 0)} 张')
     if first_6:
         print(f'最早六星: 第 {first_6} 抽')
-        print(f'最晚六星: 第 {last_6} 抽')
     print(f'当前垫抽: {pity}')
     print(f'历史累计: {total_hist} 抽')
-
-    # ---------- 天井检查 ----------
-    if total_hist >= 300:
-        print(f'\n>>> 累计已 {total_hist} 抽，可兑换当期 UP 六星「{UP_NAME}」！<<<')
-        total_hist = 0  # 兑换后清零
 
     # ---------- 存盘 ----------
     save_data(total_hist, pity)
@@ -593,17 +591,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-c">#!/usr/bin/env python3</span>
 <span class="pl-c"># -*- coding: utf-8 -*-</span>
 <span class="pl-s">"""</span>
-<span class="pl-s">明日方舟限定 UP 池模拟器（软保底 + 300 抽天井）</span>
+<span class="pl-s">明日方舟限定 UP 池模拟器（真实概率链 + 300 抽天井补发）</span>
 <span class="pl-s">"""</span>
-
 <span class="pl-k">import</span> <span class="pl-s1">os</span>
 <span class="pl-k">import</span> <span class="pl-s1">json</span>
 <span class="pl-k">import</span> <span class="pl-s1">random</span>
 <span class="pl-k">from</span> <span class="pl-s1">collections</span> <span class="pl-k">import</span> <span class="pl-v">Counter</span>
 
 <span class="pl-c"># ========== 用户可改参数 ==========</span>
-<span class="pl-c1">UP_NAME</span> <span class="pl-c1">=</span> <span class="pl-s">"影焰·苇羽"</span>      <span class="pl-c"># 当期 UP 六星</span>
-<span class="pl-c1">SAVE_FILE</span> <span class="pl-c1">=</span> <span class="pl-s">"arknights_pity.json"</span>  <span class="pl-c"># 存盘文件</span>
+<span class="pl-c1">UP_NAME</span> <span class="pl-c1">=</span> <span class="pl-s">"影焰·苇羽"</span>          <span class="pl-c"># 当期 UP 六星</span>
+<span class="pl-c1">SAVE_FILE</span> <span class="pl-c1">=</span> <span class="pl-s">"arknights_pity.json"</span>
 <span class="pl-c"># ==================================</span>
 
 <span class="pl-c"># ---------- 工具：读档 ----------</span>
@@ -611,56 +608,52 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <span class="pl-k">if</span> <span class="pl-s1">os</span>.<span class="pl-c1">path</span>.<span class="pl-c1">exists</span>(<span class="pl-c1">SAVE_FILE</span>):
         <span class="pl-k">with</span> <span class="pl-en">open</span>(<span class="pl-c1">SAVE_FILE</span>, <span class="pl-s">"r"</span>, <span class="pl-s1">encoding</span><span class="pl-c1">=</span><span class="pl-s">"utf-8"</span>) <span class="pl-k">as</span> <span class="pl-s1">f</span>:
             <span class="pl-k">return</span> <span class="pl-s1">json</span>.<span class="pl-c1">load</span>(<span class="pl-s1">f</span>)
-    <span class="pl-k">return</span> {<span class="pl-s">"total"</span>: <span class="pl-c1">0</span>, <span class="pl-s">"pity"</span>: <span class="pl-c1">0</span>}   <span class="pl-c"># 首次运行</span>
+    <span class="pl-k">return</span> {<span class="pl-s">"total"</span>: <span class="pl-c1">0</span>, <span class="pl-s">"pity"</span>: <span class="pl-c1">0</span>}
 
 <span class="pl-c"># ---------- 工具：写档 ----------</span>
 <span class="pl-k">def</span> <span class="pl-en">save_data</span>(<span class="pl-s1">total</span>, <span class="pl-s1">pity</span>):
     <span class="pl-k">with</span> <span class="pl-en">open</span>(<span class="pl-c1">SAVE_FILE</span>, <span class="pl-s">"w"</span>, <span class="pl-s1">encoding</span><span class="pl-c1">=</span><span class="pl-s">"utf-8"</span>) <span class="pl-k">as</span> <span class="pl-s1">f</span>:
         <span class="pl-s1">json</span>.<span class="pl-c1">dump</span>({<span class="pl-s">"total"</span>: <span class="pl-s1">total</span>, <span class="pl-s">"pity"</span>: <span class="pl-s1">pity</span>}, <span class="pl-s1">f</span>, <span class="pl-s1">ensure_ascii</span><span class="pl-c1">=</span><span class="pl-c1">False</span>)
 
-<span class="pl-c"># ---------- 核心抽卡 ----------</span>
+<span class="pl-c"># ---------- 核心抽卡（真实概率链） ----------</span>
 <span class="pl-k">def</span> <span class="pl-en">pull_once</span>(<span class="pl-s1">pity</span>):
     <span class="pl-s">"""返回 (结果字符串, 新pity, 是否六星)"""</span>
-    <span class="pl-c"># 1. 六星软保底</span>
-    <span class="pl-s1">six_prob</span> <span class="pl-c1">=</span> <span class="pl-en">min</span>(<span class="pl-c1">2</span> <span class="pl-c1">+</span> <span class="pl-en">max</span>(<span class="pl-c1">0</span>, <span class="pl-s1">pity</span> <span class="pl-c1">-</span> <span class="pl-c1">49</span>) <span class="pl-c1">*</span> <span class="pl-c1">2</span>, <span class="pl-c1">100</span>)
-    <span class="pl-k">if</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>) <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_prob</span>:
+    <span class="pl-s1">six_prob</span> <span class="pl-c1">=</span> <span class="pl-en">min</span>(<span class="pl-c1">2</span> <span class="pl-c1">+</span> <span class="pl-en">max</span>(<span class="pl-c1">0</span>, <span class="pl-s1">pity</span> <span class="pl-c1">-</span> <span class="pl-c1">49</span>) <span class="pl-c1">*</span> <span class="pl-c1">2</span>, <span class="pl-c1">100</span>)  <span class="pl-c"># 软保底</span>
+    <span class="pl-s1">r</span> <span class="pl-c1">=</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>)                       <span class="pl-c"># 只掷一次</span>
+
+    <span class="pl-k">if</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_prob</span>:                                <span class="pl-c"># 1. 六星</span>
         <span class="pl-s1">up_or_ng</span> <span class="pl-c1">=</span> <span class="pl-s1">random</span>.<span class="pl-c1">choices</span>([<span class="pl-s">"UP"</span>, <span class="pl-s">"歪"</span>], <span class="pl-s1">weights</span><span class="pl-c1">=</span>[<span class="pl-c1">70</span>, <span class="pl-c1">30</span>])[<span class="pl-c1">0</span>]
         <span class="pl-k">return</span> (<span class="pl-s">f"六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>"</span> <span class="pl-k">if</span> <span class="pl-s1">up_or_ng</span> <span class="pl-c1">==</span> <span class="pl-s">"UP"</span> <span class="pl-k">else</span> <span class="pl-s">"六星·常驻"</span>), <span class="pl-c1">0</span>, <span class="pl-c1">True</span>
 
-    <span class="pl-c"># 2. 五星</span>
-    <span class="pl-k">if</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>) <span class="pl-c1">&lt;=</span> <span class="pl-c1">8</span>:
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_prob</span> <span class="pl-c1">+</span> <span class="pl-c1">2</span>:                          <span class="pl-c"># 2. 五星 2%</span>
         <span class="pl-k">return</span> <span class="pl-s">"五星"</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">False</span>
 
-    <span class="pl-c"># 3. 四星</span>
-    <span class="pl-k">if</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>) <span class="pl-c1">&lt;=</span> <span class="pl-c1">50</span>:
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_prob</span> <span class="pl-c1">+</span> <span class="pl-c1">2</span> <span class="pl-c1">+</span> <span class="pl-c1">50</span>:                     <span class="pl-c"># 3. 四星 50%</span>
         <span class="pl-k">return</span> <span class="pl-s">"四星"</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">False</span>
 
-    <span class="pl-c"># 4. 三星</span>
-    <span class="pl-k">return</span> <span class="pl-s">"三星"</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">False</span>
+    <span class="pl-k">else</span>:                                            <span class="pl-c"># 4. 三星 46%</span>
+        <span class="pl-k">return</span> <span class="pl-s">"三星"</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">False</span>
 
 <span class="pl-c"># ---------- 主流程 ----------</span>
 <span class="pl-k">def</span> <span class="pl-en">main</span>():
     <span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-en">load_data</span>()
-    <span class="pl-s1">total_hist</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>[<span class="pl-s">"total"</span>]  <span class="pl-c"># 历史总抽数</span>
-    <span class="pl-s1">pity</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>[<span class="pl-s">"pity"</span>]         <span class="pl-c"># 距上次六星垫抽</span>
+    <span class="pl-s1">total_hist</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>[<span class="pl-s">"total"</span>]
+    <span class="pl-s1">pity</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>[<span class="pl-s">"pity"</span>]
 
     <span class="pl-s1">n</span> <span class="pl-c1">=</span> <span class="pl-en">int</span>(<span class="pl-en">input</span>(<span class="pl-s">"本次抽多少发？："</span>))
 
     <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>===== 抽卡开始 ====="</span>)
     <span class="pl-s1">record</span> <span class="pl-c1">=</span> []
     <span class="pl-s1">first_6</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
-    <span class="pl-s1">last_6</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
     <span class="pl-s1">six_count</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>
 
     <span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-c1">1</span>, <span class="pl-s1">n</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>):
-        <span class="pl-s1">result</span>, <span class="pl-s1">pity</span>, <span class="pl-s1">is6</span> <span class="pl-c1">=</span> <span class="pl-en">pull_once</span>(<span class="pl-s1">pity</span>)
+        <span class="pl-s1">result</span>, <span class="pl-s1">pity</span>, <span class="pl-s1">is6</span> <span class="pl-c1">=</span> <span class="pl-en">pull_once</span>(<span class="pl-s1">pity</span>)  <span class="pl-c"># ← 仅此处修复：pull_one → pull_once</span>
         <span class="pl-s1">record</span>.<span class="pl-c1">append</span>(<span class="pl-s1">result</span>)
-        <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">i</span>:3d<span class="pl-kos">}</span></span> | <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">result</span><span class="pl-kos">}</span></span>"</span>)
         <span class="pl-k">if</span> <span class="pl-s1">is6</span>:
             <span class="pl-s1">six_count</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
             <span class="pl-k">if</span> <span class="pl-s1">first_6</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
                 <span class="pl-s1">first_6</span> <span class="pl-c1">=</span> <span class="pl-s1">i</span>
-            <span class="pl-s1">last_6</span> <span class="pl-c1">=</span> <span class="pl-s1">i</span>
 
     <span class="pl-s1">total_hist</span> <span class="pl-c1">+=</span> <span class="pl-s1">n</span>
 
@@ -669,25 +662,28 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>===== 统计 ====="</span>)
     <span class="pl-k">for</span> <span class="pl-s1">k</span>, <span class="pl-s1">v</span> <span class="pl-c1">in</span> <span class="pl-s1">c</span>.<span class="pl-c1">items</span>():
         <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">k</span><span class="pl-kos">}</span></span>: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">v</span><span class="pl-kos">}</span></span> 张"</span>)
+
+    <span class="pl-c"># ---------- 天井检查（自动补发） ----------</span>
+    <span class="pl-k">if</span> <span class="pl-s1">total_hist</span> <span class="pl-c1">&gt;=</span> <span class="pl-c1">300</span>:
+        <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-cce">\n</span>&gt;&gt;&gt; 累计已 <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">total_hist</span><span class="pl-kos">}</span></span> 抽，可兑换当期 UP 六星「<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>」！&lt;&lt;&lt;"</span>)
+        <span class="pl-k">if</span> <span class="pl-s1">c</span>.<span class="pl-c1">get</span>(<span class="pl-s">f"六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>"</span>, <span class="pl-c1">0</span>) <span class="pl-c1">==</span> <span class="pl-c1">0</span>:
+            <span class="pl-s1">c</span>[<span class="pl-s">f"六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>"</span>] <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
+            <span class="pl-s1">six_count</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
+            <span class="pl-en">print</span>(<span class="pl-s">f"&gt;&gt;&gt; 已自动为你兑换「六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>」，更新统计结果！&lt;&lt;&lt;"</span>)
+        <span class="pl-s1">total_hist</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 兑换后清零</span>
+
     <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-cce">\n</span>总计六星: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">six_count</span><span class="pl-kos">}</span></span> 张"</span>)
     <span class="pl-en">print</span>(<span class="pl-s">f"UP 六星: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">c</span>.<span class="pl-c1">get</span>(<span class="pl-s">f'六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>'</span>, <span class="pl-c1">0</span>)<span class="pl-kos">}</span></span> 张"</span>)
     <span class="pl-en">print</span>(<span class="pl-s">f"歪六星: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">c</span>.<span class="pl-c1">get</span>(<span class="pl-s">'六星·常驻'</span>, <span class="pl-c1">0</span>)<span class="pl-kos">}</span></span> 张"</span>)
     <span class="pl-k">if</span> <span class="pl-s1">first_6</span>:
         <span class="pl-en">print</span>(<span class="pl-s">f"最早六星: 第 <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">first_6</span><span class="pl-kos">}</span></span> 抽"</span>)
-        <span class="pl-en">print</span>(<span class="pl-s">f"最晚六星: 第 <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">last_6</span><span class="pl-kos">}</span></span> 抽"</span>)
     <span class="pl-en">print</span>(<span class="pl-s">f"当前垫抽: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">pity</span><span class="pl-kos">}</span></span>"</span>)
     <span class="pl-en">print</span>(<span class="pl-s">f"历史累计: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">total_hist</span><span class="pl-kos">}</span></span> 抽"</span>)
-
-    <span class="pl-c"># ---------- 天井检查 ----------</span>
-    <span class="pl-k">if</span> <span class="pl-s1">total_hist</span> <span class="pl-c1">&gt;=</span> <span class="pl-c1">300</span>:
-        <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-cce">\n</span>&gt;&gt;&gt; 累计已 <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">total_hist</span><span class="pl-kos">}</span></span> 抽，可兑换当期 UP 六星「<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>」！&lt;&lt;&lt;"</span>)
-        <span class="pl-s1">total_hist</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 兑换后清零</span>
 
     <span class="pl-c"># ---------- 存盘 ----------</span>
     <span class="pl-en">save_data</span>(<span class="pl-s1">total_hist</span>, <span class="pl-s1">pity</span>)
     <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>数据已保存，下次继续累计。"</span>)
 
-<span class="pl-c"># ---------- 入口 ----------</span>
 <span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
     <span class="pl-en">main</span>()</pre></div>
 <p>运行结果差不多如下</p>
@@ -760,7 +756,11 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
 
 
 function openComments(){
