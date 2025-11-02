@@ -1,5 +1,5 @@
-# 本网站是利用Geek模板搭建起来的
-## Geek是一个开源的一个博客框架，超轻量级个人博客模板，完全基于`Github Pages` 、 `Github Issues` 和 `Github Actions`，可以称作**All in Github**。不需要本地部署，从搭建到写作，只需要18秒，2步搭建好博客，第3步就是写作。
+# 本网站是利用Gmeek模板搭建起来的
+## Gmeek是一个开源的一个博客框架，超轻量级个人博客模板，完全基于`Github Pages` 、 `Github Issues` 和 `Github Actions`，可以称作**All in Github**。不需要本地部署，从搭建到写作，只需要18秒，2步搭建好博客，第3步就是写作。
 >[!IMPORTANT]
 Geek的仓库地址为[Geek](https://github.com/Meekdai/Gmeek)
 >
