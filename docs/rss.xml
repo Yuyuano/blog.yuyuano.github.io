@@ -1,5 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Sun, 02 Nov 2025 12:26:03 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>[洛谷]级数求和</title><link>http://blog.yuzhiyuan.top/post/%5B-luo-gu-%5D-ji-shu-qiu-he.html</link><description># P1035 [NOIP 2002 普及组] 级数求和
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Mon, 03 Nov 2025 13:56:07 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>Astro博客</title><link>http://blog.yuzhiyuan.top/post/Astro-bo-ke.html</link><description># 我要另起一个基于Astro框架的博客了
+原因在于刷到了个很好看的Astro主题博客：[mizuki](https://www.bilibili.com/video/BV1A7WmzSEH8?vd_source=d90ae17eacc5388eb698abea997e8f04)真的超好看，虽然跟Gmeek的操作比起来麻烦很多`为了更好看，值了`
+## 但是现实击破了我的幻想
+
+&lt;img width='1044' height='114' alt='Image' src='https://github.com/user-attachments/assets/e16b772a-09e1-4448-870e-16c602f436ec' /&gt;
+**抽风的网络环境一拳击碎了我的博客梦**
+
+&gt;[!NOTE]
+梯子也试了，遗憾退场
+&gt;
+
+### 太伟大了，环境配置时的玄学BUG😅。</description><guid isPermaLink="true">http://blog.yuzhiyuan.top/post/Astro-bo-ke.html</guid><pubDate>Mon, 03 Nov 2025 13:53:28 +0000</pubDate></item><item><title>[洛谷]级数求和</title><link>http://blog.yuzhiyuan.top/post/%5B-luo-gu-%5D-ji-shu-qiu-he.html</link><description># P1035 [NOIP 2002 普及组] 级数求和
 ## 题目
 现已知Sn=1+1/2+1/3+1/n 
 Sn&gt;k 现给出一个整数 k，要求计算出一个最小的 n，使得 Sn&gt;k
