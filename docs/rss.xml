@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Mon, 03 Nov 2025 13:58:30 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>Astro博客</title><link>http://blog.yuzhiyuan.top/post/Astro-bo-ke.html</link><description># 我要另起一个基于Astro框架的博客了
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>遇缘的博客</title><link>http://blog.yuzhiyuan.top</link><description>以此记录我的编程生涯</description><copyright>遇缘的博客</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/170221043?v=4</url><title>avatar</title><link>http://blog.yuzhiyuan.top</link></image><lastBuildDate>Sun, 09 Nov 2025 12:51:43 +0000</lastBuildDate><managingEditor>遇缘的博客</managingEditor><ttl>60</ttl><webMaster>遇缘的博客</webMaster><item><title>Mizuki博客开业了！！！</title><link>http://blog.yuzhiyuan.top/post/Mizuki-bo-ke-kai-ye-le-%EF%BC%81%EF%BC%81%EF%BC%81.html</link><description># 喜讯，经过我本周五不懈努力，我的Mizuki博客终于开业了
+### 历经艰辛万苦，面临数次报错
+
+&lt;img width='2189' height='882' alt='Image' src='https://github.com/user-attachments/assets/fed721d0-cc01-41f6-8dc5-03cd9d1d1823' /&gt;
+
+### 我的Mizuki博客终于大功告成了
+
+&lt;img width='2559' height='1413' alt='Image' src='https://github.com/user-attachments/assets/7a08007b-39ec-4b3c-a24e-550f727f61c5' /&gt;
+
+以后[Mizuki博客](mizuki.yuzhiyuan.top)将作为我的主博客来使用**因为功能更多更完善**，这个Gmeek博客将作为副博客，我将尽力保持大文章两个博客同步发布，由于Gmeek发布文章的快捷性，可能有些小文章会发布在Gmeek
+&gt;[!NOTE]
+之前说的搭建博客文章发布在[Mizuki](https://mizuki.yuzhiyuan.top/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/)里面了，可以前往查看哦
+&gt;。</description><guid isPermaLink="true">http://blog.yuzhiyuan.top/post/Mizuki-bo-ke-kai-ye-le-%EF%BC%81%EF%BC%81%EF%BC%81.html</guid><pubDate>Sun, 09 Nov 2025 12:51:12 +0000</pubDate></item><item><title>Astro博客</title><link>http://blog.yuzhiyuan.top/post/Astro-bo-ke.html</link><description># 我要另起一个基于Astro框架的博客了
 原因在于刷到了个很好看的Astro主题博客：[mizuki](https://www.bilibili.com/video/BV1A7WmzSEH8?vd_source=d90ae17eacc5388eb698abea997e8f04)真的超好看，虽然跟Gmeek的操作比起来麻烦很多`为了更好看，值了`
 ## 但是现实击破了我的幻想
 
