@@ -427,7 +427,7 @@ def main():
 <meta property="og:url" content="http://blog.yuzhiyuan.top/post/chou-qia-mo-ni.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
 <title>抽卡模拟</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -505,194 +505,189 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 <div class="markdown-alert markdown-alert-tip"><p class="markdown-alert-title"><svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p><p>如果想让脚本更健壮，把 <code class="notranslate">guess = int(input(...))</code> 包成：</p>
 </div>
-<pre lang="python" class="notranslate"><code class="notranslate">while True:
-    try:
-        guess = int(input('请输入 1-100 的整数：'))
-        break
-    except ValueError:
-        print('格式错误，请重新输入！')
-</code></pre>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">while</span> <span class="pl-c1">True</span>:
+    <span class="pl-k">try</span>:
+        <span class="pl-s1">guess</span> <span class="pl-c1">=</span> <span class="pl-en">int</span>(<span class="pl-en">input</span>(<span class="pl-s">'请输入 1-100 的整数：'</span>))
+        <span class="pl-k">break</span>
+    <span class="pl-k">except</span> <span class="pl-v">ValueError</span>:
+        <span class="pl-en">print</span>(<span class="pl-s">'格式错误，请重新输入！'</span>)</pre></div>
 <blockquote>
 </blockquote>
 <h2>将会分步骤一步步变难</h2>
 <div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>这玩意对于初学者来说有亿点难以理解，不懂问Ai吧，或者找我</p>
 </div>
 <h3>标准池（6⭐概率2%） 无保底写法</h3>
-<pre lang="python" class="notranslate"><code class="notranslate">import random
-chou = int(input('你想要抽多少发？：')) #自定义想抽多少发
-def gacha():     #用def函数方便自定义抽数
-    r = random.randint(1, 100)
-   # random.randint(1,100) 生成的是 1~100 闭区间，共 100 个整数
-    if r &lt;= 2:          # 6⭐ 2/100 = 2%
-        return '⭐⭐⭐⭐⭐⭐'
-    elif r &lt;= 8:
-        return '⭐⭐⭐⭐⭐'
-    elif r &lt;= 50:
-        return '⭐⭐⭐⭐'
-    else:
-        return '⭐⭐⭐'
-for i in range(chou): #循环输入的次数
-    print(gacha()) #执行def函数并输出
-</code></pre>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">random</span>
+<span class="pl-s1">chou</span> <span class="pl-c1">=</span> <span class="pl-en">int</span>(<span class="pl-en">input</span>(<span class="pl-s">'你想要抽多少发？：'</span>)) <span class="pl-c">#自定义想抽多少发</span>
+<span class="pl-k">def</span> <span class="pl-en">gacha</span>():     <span class="pl-c">#用def函数方便自定义抽数</span>
+    <span class="pl-s1">r</span> <span class="pl-c1">=</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>)
+   <span class="pl-c"># random.randint(1,100) 生成的是 1~100 闭区间，共 100 个整数</span>
+    <span class="pl-k">if</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">2</span>:          <span class="pl-c"># 6⭐ 2/100 = 2%</span>
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐⭐⭐'</span>
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">8</span>:
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐⭐'</span>
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">50</span>:
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐'</span>
+    <span class="pl-k">else</span>:
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐'</span>
+<span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-s1">chou</span>): <span class="pl-c">#循环输入的次数</span>
+    <span class="pl-en">print</span>(<span class="pl-en">gacha</span>()) <span class="pl-c">#执行def函数并输出</span></pre></div>
 <div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>这个用了<strong>def函数</strong>来自定义抽数，理解不了<strong>def</strong>可以把自定义抽数的代码去掉然后直接<code class="notranslate">For循环</code>判断抽卡的内容</p>
 </div>
 <h3>（假）保底写法</h3>
 <p>因为明日方舟保底概率是随着抽数的增长而增长，为了方便理解，这里先介绍<strong>硬保底</strong>（也就是抽到多少抽必出，不随着抽数增加概率）</p>
-<pre lang="python" class="notranslate"><code class="notranslate">import random
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">random</span>
 
-chou = int(input('你想要抽多少发？：'))
+<span class="pl-s1">chou</span> <span class="pl-c1">=</span> <span class="pl-en">int</span>(<span class="pl-en">input</span>(<span class="pl-s">'你想要抽多少发？：'</span>))
 
-def gacha(pity):
-    """返回 (结果, 新pity)"""
-    # 硬保底：第99抽必出6⭐
-    if pity == 99:
-        return '⭐⭐⭐⭐⭐⭐', 0
+<span class="pl-k">def</span> <span class="pl-en">gacha</span>(<span class="pl-s1">pity</span>):
+    <span class="pl-s">"""返回 (结果, 新pity)"""</span>
+    <span class="pl-c"># 硬保底：第99抽必出6⭐</span>
+    <span class="pl-k">if</span> <span class="pl-s1">pity</span> <span class="pl-c1">==</span> <span class="pl-c1">99</span>:
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐⭐⭐'</span>, <span class="pl-c1">0</span>
 
-    # 正常概率
-    r = random.randint(1, 100)
-    if r &lt;= 2:                # 出6⭐
-        return '⭐⭐⭐⭐⭐⭐', 0
-    elif r &lt;= 8:
-        return '⭐⭐⭐⭐⭐', pity + 1
-    elif r &lt;= 50:
-        return '⭐⭐⭐⭐', pity + 1
-    else:
-        return '⭐⭐⭐', pity + 1
+    <span class="pl-c"># 正常概率</span>
+    <span class="pl-s1">r</span> <span class="pl-c1">=</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>)
+    <span class="pl-k">if</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">2</span>:                <span class="pl-c"># 出6⭐</span>
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐⭐⭐'</span>, <span class="pl-c1">0</span>
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">8</span>:
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐⭐'</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">50</span>:
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐'</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>
+    <span class="pl-k">else</span>:
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐'</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>
 
-pity = 0
-for i in range(chou):
-    result, pity = gacha(pity)
-    print(result)
-</code></pre>
+<span class="pl-s1">pity</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-s1">chou</span>):
+    <span class="pl-s1">result</span>, <span class="pl-s1">pity</span> <span class="pl-c1">=</span> <span class="pl-en">gacha</span>(<span class="pl-s1">pity</span>)
+    <span class="pl-en">print</span>(<span class="pl-s1">result</span>)</pre></div>
 <div class="markdown-alert markdown-alert-tip"><p class="markdown-alert-title"><svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p><p>要善用计数器来作为额外的计算次数道具</p>
 </div>
 <h3>(真）保底写法</h3>
-<pre lang="python" class="notranslate"><code class="notranslate">import random
-chou = int(input('你想要抽多少发？：'))
-def gacha(pity):
-    """返回 (抽卡结果, 新的pity计数)"""
-    # 计算当前 6⭐概率
-    six_rate = min(2 + max(0, pity - 49) * 2, 100)   # 第51抽开始+2%  官方：50 抽之后（即第 51 抽）每抽 +2%
-    r = random.randint(1, 100) 
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">random</span>
+<span class="pl-s1">chou</span> <span class="pl-c1">=</span> <span class="pl-en">int</span>(<span class="pl-en">input</span>(<span class="pl-s">'你想要抽多少发？：'</span>))
+<span class="pl-k">def</span> <span class="pl-en">gacha</span>(<span class="pl-s1">pity</span>):
+    <span class="pl-s">"""返回 (抽卡结果, 新的pity计数)"""</span>
+    <span class="pl-c"># 计算当前 6⭐概率</span>
+    <span class="pl-s1">six_rate</span> <span class="pl-c1">=</span> <span class="pl-en">min</span>(<span class="pl-c1">2</span> <span class="pl-c1">+</span> <span class="pl-en">max</span>(<span class="pl-c1">0</span>, <span class="pl-s1">pity</span> <span class="pl-c1">-</span> <span class="pl-c1">49</span>) <span class="pl-c1">*</span> <span class="pl-c1">2</span>, <span class="pl-c1">100</span>)   <span class="pl-c"># 第51抽开始+2%  官方：50 抽之后（即第 51 抽）每抽 +2%</span>
+    <span class="pl-s1">r</span> <span class="pl-c1">=</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>) 
 
-    if r &lt;= six_rate:           # 出 6⭐
-        return '⭐⭐⭐⭐⭐⭐', 0
-    elif r &lt;= 8:                # 5⭐
-        return '⭐⭐⭐⭐⭐', pity + 1
-    elif r &lt;= 50:               # 4⭐
-        return '⭐⭐⭐⭐', pity + 1
-    else:                       # 3⭐
-        return '⭐⭐⭐', pity + 1
+    <span class="pl-k">if</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_rate</span>:           <span class="pl-c"># 出 6⭐</span>
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐⭐⭐'</span>, <span class="pl-c1">0</span>
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">8</span>:                <span class="pl-c"># 5⭐</span>
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐⭐'</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-c1">50</span>:               <span class="pl-c"># 4⭐</span>
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐⭐'</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>
+    <span class="pl-k">else</span>:                       <span class="pl-c"># 3⭐</span>
+        <span class="pl-k">return</span> <span class="pl-s">'⭐⭐⭐'</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>
 
-pity = 0                        # 开局垫 0 抽
-for i in range(chou):
-    result, pity = gacha(pity)  # 抽一次，拿到新 pity
-    print(result)
-</code></pre>
+<span class="pl-s1">pity</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>                        <span class="pl-c"># 开局垫 0 抽</span>
+<span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-s1">chou</span>):
+    <span class="pl-s1">result</span>, <span class="pl-s1">pity</span> <span class="pl-c1">=</span> <span class="pl-en">gacha</span>(<span class="pl-s1">pity</span>)  <span class="pl-c"># 抽一次，拿到新 pity</span>
+    <span class="pl-en">print</span>(<span class="pl-s1">result</span>)</pre></div>
 <h3>集大成者完整版（拥有随抽数增加保底概率增加，会歪，有统计功能）</h3>
 <div class="markdown-alert markdown-alert-caution"><p class="markdown-alert-title"><svg class="octicon octicon-stop mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p><p>因为以下代码会创建<strong>json文件</strong>来保存数据，所以请勿在<strong>python在线编辑器</strong>来运行此代码</p>
 </div>
-<pre lang="python" class="notranslate"><code class="notranslate">#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-明日方舟限定 UP 池模拟器（真实概率链 + 300 抽天井补发）
-"""
-import os
-import json
-import random
-from collections import Counter
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-c">#!/usr/bin/env python3</span>
+<span class="pl-c"># -*- coding: utf-8 -*-</span>
+<span class="pl-s">"""</span>
+<span class="pl-s">明日方舟限定 UP 池模拟器（真实概率链 + 300 抽天井补发）</span>
+<span class="pl-s">"""</span>
+<span class="pl-k">import</span> <span class="pl-s1">os</span>
+<span class="pl-k">import</span> <span class="pl-s1">json</span>
+<span class="pl-k">import</span> <span class="pl-s1">random</span>
+<span class="pl-k">from</span> <span class="pl-s1">collections</span> <span class="pl-k">import</span> <span class="pl-v">Counter</span>
 
-# ========== 用户可改参数 ==========
-UP_NAME = "影焰·苇草"          # 当期 UP 六星
-SAVE_FILE = "arknights_pity.json"
-# ==================================
+<span class="pl-c"># ========== 用户可改参数 ==========</span>
+<span class="pl-c1">UP_NAME</span> <span class="pl-c1">=</span> <span class="pl-s">"影焰·苇草"</span>          <span class="pl-c"># 当期 UP 六星</span>
+<span class="pl-c1">SAVE_FILE</span> <span class="pl-c1">=</span> <span class="pl-s">"arknights_pity.json"</span>
+<span class="pl-c"># ==================================</span>
 
-# ---------- 工具：读档 ----------
-def load_data():
-    if os.path.exists(SAVE_FILE):
-        with open(SAVE_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {"total": 0, "pity": 0}
+<span class="pl-c"># ---------- 工具：读档 ----------</span>
+<span class="pl-k">def</span> <span class="pl-en">load_data</span>():
+    <span class="pl-k">if</span> <span class="pl-s1">os</span>.<span class="pl-c1">path</span>.<span class="pl-c1">exists</span>(<span class="pl-c1">SAVE_FILE</span>):
+        <span class="pl-k">with</span> <span class="pl-en">open</span>(<span class="pl-c1">SAVE_FILE</span>, <span class="pl-s">"r"</span>, <span class="pl-s1">encoding</span><span class="pl-c1">=</span><span class="pl-s">"utf-8"</span>) <span class="pl-k">as</span> <span class="pl-s1">f</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">json</span>.<span class="pl-c1">load</span>(<span class="pl-s1">f</span>)
+    <span class="pl-k">return</span> {<span class="pl-s">"total"</span>: <span class="pl-c1">0</span>, <span class="pl-s">"pity"</span>: <span class="pl-c1">0</span>}
 
-# ---------- 工具：写档 ----------
-def save_data(total, pity):
-    with open(SAVE_FILE, "w", encoding="utf-8") as f:
-        json.dump({"total": total, "pity": pity}, f, ensure_ascii=False)
+<span class="pl-c"># ---------- 工具：写档 ----------</span>
+<span class="pl-k">def</span> <span class="pl-en">save_data</span>(<span class="pl-s1">total</span>, <span class="pl-s1">pity</span>):
+    <span class="pl-k">with</span> <span class="pl-en">open</span>(<span class="pl-c1">SAVE_FILE</span>, <span class="pl-s">"w"</span>, <span class="pl-s1">encoding</span><span class="pl-c1">=</span><span class="pl-s">"utf-8"</span>) <span class="pl-k">as</span> <span class="pl-s1">f</span>:
+        <span class="pl-s1">json</span>.<span class="pl-c1">dump</span>({<span class="pl-s">"total"</span>: <span class="pl-s1">total</span>, <span class="pl-s">"pity"</span>: <span class="pl-s1">pity</span>}, <span class="pl-s1">f</span>, <span class="pl-s1">ensure_ascii</span><span class="pl-c1">=</span><span class="pl-c1">False</span>)
 
-# ---------- 核心抽卡（真实概率链） ----------
-def pull_once(pity):
-    """返回 (结果字符串, 新pity, 是否六星)"""
-    six_prob = min(2 + max(0, pity - 49) * 2, 100)  # 软保底
-    r = random.randint(1, 100)                       # 只掷一次
+<span class="pl-c"># ---------- 核心抽卡（真实概率链） ----------</span>
+<span class="pl-k">def</span> <span class="pl-en">pull_once</span>(<span class="pl-s1">pity</span>):
+    <span class="pl-s">"""返回 (结果字符串, 新pity, 是否六星)"""</span>
+    <span class="pl-s1">six_prob</span> <span class="pl-c1">=</span> <span class="pl-en">min</span>(<span class="pl-c1">2</span> <span class="pl-c1">+</span> <span class="pl-en">max</span>(<span class="pl-c1">0</span>, <span class="pl-s1">pity</span> <span class="pl-c1">-</span> <span class="pl-c1">49</span>) <span class="pl-c1">*</span> <span class="pl-c1">2</span>, <span class="pl-c1">100</span>)  <span class="pl-c"># 软保底</span>
+    <span class="pl-s1">r</span> <span class="pl-c1">=</span> <span class="pl-s1">random</span>.<span class="pl-c1">randint</span>(<span class="pl-c1">1</span>, <span class="pl-c1">100</span>)                       <span class="pl-c"># 只掷一次</span>
 
-    if r &lt;= six_prob:                                # 1. 六星
-        up_or_ng = random.choices(["UP", "歪"], weights=[70, 30])[0]
-        return (f"六星·{UP_NAME}" if up_or_ng == "UP" else "六星·常驻"), 0, True
+    <span class="pl-k">if</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_prob</span>:                                <span class="pl-c"># 1. 六星</span>
+        <span class="pl-s1">up_or_ng</span> <span class="pl-c1">=</span> <span class="pl-s1">random</span>.<span class="pl-c1">choices</span>([<span class="pl-s">"UP"</span>, <span class="pl-s">"歪"</span>], <span class="pl-s1">weights</span><span class="pl-c1">=</span>[<span class="pl-c1">70</span>, <span class="pl-c1">30</span>])[<span class="pl-c1">0</span>]
+        <span class="pl-k">return</span> (<span class="pl-s">f"六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>"</span> <span class="pl-k">if</span> <span class="pl-s1">up_or_ng</span> <span class="pl-c1">==</span> <span class="pl-s">"UP"</span> <span class="pl-k">else</span> <span class="pl-s">"六星·常驻"</span>), <span class="pl-c1">0</span>, <span class="pl-c1">True</span>
 
-    elif r &lt;= six_prob + 2:                          # 2. 五星 2%
-        return "五星", pity + 1, False
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_prob</span> <span class="pl-c1">+</span> <span class="pl-c1">2</span>:                          <span class="pl-c"># 2. 五星 2%</span>
+        <span class="pl-k">return</span> <span class="pl-s">"五星"</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">False</span>
 
-    elif r &lt;= six_prob + 2 + 50:                     # 3. 四星 50%
-        return "四星", pity + 1, False
+    <span class="pl-k">elif</span> <span class="pl-s1">r</span> <span class="pl-c1">&lt;=</span> <span class="pl-s1">six_prob</span> <span class="pl-c1">+</span> <span class="pl-c1">2</span> <span class="pl-c1">+</span> <span class="pl-c1">50</span>:                     <span class="pl-c"># 3. 四星 50%</span>
+        <span class="pl-k">return</span> <span class="pl-s">"四星"</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">False</span>
 
-    else:                                            # 4. 三星 46%
-        return "三星", pity + 1, False
+    <span class="pl-k">else</span>:                                            <span class="pl-c"># 4. 三星 46%</span>
+        <span class="pl-k">return</span> <span class="pl-s">"三星"</span>, <span class="pl-s1">pity</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">False</span>
 
-# ---------- 主流程 ----------
-def main():
-    data = load_data()
-    total_hist = data["total"]
-    pity = data["pity"]
+<span class="pl-c"># ---------- 主流程 ----------</span>
+<span class="pl-k">def</span> <span class="pl-en">main</span>():
+    <span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-en">load_data</span>()
+    <span class="pl-s1">total_hist</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>[<span class="pl-s">"total"</span>]
+    <span class="pl-s1">pity</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>[<span class="pl-s">"pity"</span>]
 
-    n = int(input("本次抽多少发？："))
+    <span class="pl-s1">n</span> <span class="pl-c1">=</span> <span class="pl-en">int</span>(<span class="pl-en">input</span>(<span class="pl-s">"本次抽多少发？："</span>))
 
-    print("\n===== 抽卡开始 =====")
-    record = []
-    first_6 = None
-    six_count = 0
+    <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>===== 抽卡开始 ====="</span>)
+    <span class="pl-s1">record</span> <span class="pl-c1">=</span> []
+    <span class="pl-s1">first_6</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+    <span class="pl-s1">six_count</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>
 
-    for i in range(1, n + 1):
-        result, pity, is6 = pull_once(pity)  # ← 仅此处修复：pull_one → pull_once
-        record.append(result)
-        if is6:
-            six_count += 1
-            if first_6 is None:
-                first_6 = i
+    <span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-c1">1</span>, <span class="pl-s1">n</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>):
+        <span class="pl-s1">result</span>, <span class="pl-s1">pity</span>, <span class="pl-s1">is6</span> <span class="pl-c1">=</span> <span class="pl-en">pull_once</span>(<span class="pl-s1">pity</span>)  <span class="pl-c"># ← 仅此处修复：pull_one → pull_once</span>
+        <span class="pl-s1">record</span>.<span class="pl-c1">append</span>(<span class="pl-s1">result</span>)
+        <span class="pl-k">if</span> <span class="pl-s1">is6</span>:
+            <span class="pl-s1">six_count</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
+            <span class="pl-k">if</span> <span class="pl-s1">first_6</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+                <span class="pl-s1">first_6</span> <span class="pl-c1">=</span> <span class="pl-s1">i</span>
 
-    total_hist += n
+    <span class="pl-s1">total_hist</span> <span class="pl-c1">+=</span> <span class="pl-s1">n</span>
 
-    # ---------- 统计 ----------
-    c = Counter(record)
-    print("\n===== 统计 =====")
-    for k, v in c.items():
-        print(f"{k}: {v} 张")
+    <span class="pl-c"># ---------- 统计 ----------</span>
+    <span class="pl-s1">c</span> <span class="pl-c1">=</span> <span class="pl-en">Counter</span>(<span class="pl-s1">record</span>)
+    <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>===== 统计 ====="</span>)
+    <span class="pl-k">for</span> <span class="pl-s1">k</span>, <span class="pl-s1">v</span> <span class="pl-c1">in</span> <span class="pl-s1">c</span>.<span class="pl-c1">items</span>():
+        <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">k</span><span class="pl-kos">}</span></span>: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">v</span><span class="pl-kos">}</span></span> 张"</span>)
 
-    # ---------- 天井检查（自动补发） ----------
-    if total_hist &gt;= 300:
-        print(f"\n&gt;&gt;&gt; 累计已 {total_hist} 抽，可兑换当期 UP 六星「{UP_NAME}」！&lt;&lt;&lt;")
-        if c.get(f"六星·{UP_NAME}", 0) == 0:
-            c[f"六星·{UP_NAME}"] += 1
-            six_count += 1
-            print(f"&gt;&gt;&gt; 已自动为你兑换「六星·{UP_NAME}」，更新统计结果！&lt;&lt;&lt;")
-        total_hist = 0  # 兑换后清零
+    <span class="pl-c"># ---------- 天井检查（自动补发） ----------</span>
+    <span class="pl-k">if</span> <span class="pl-s1">total_hist</span> <span class="pl-c1">&gt;=</span> <span class="pl-c1">300</span>:
+        <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-cce">\n</span>&gt;&gt;&gt; 累计已 <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">total_hist</span><span class="pl-kos">}</span></span> 抽，可兑换当期 UP 六星「<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>」！&lt;&lt;&lt;"</span>)
+        <span class="pl-k">if</span> <span class="pl-s1">c</span>.<span class="pl-c1">get</span>(<span class="pl-s">f"六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>"</span>, <span class="pl-c1">0</span>) <span class="pl-c1">==</span> <span class="pl-c1">0</span>:
+            <span class="pl-s1">c</span>[<span class="pl-s">f"六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>"</span>] <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
+            <span class="pl-s1">six_count</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
+            <span class="pl-en">print</span>(<span class="pl-s">f"&gt;&gt;&gt; 已自动为你兑换「六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>」，更新统计结果！&lt;&lt;&lt;"</span>)
+        <span class="pl-s1">total_hist</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 兑换后清零</span>
 
-    print(f"\n总计六星: {six_count} 张")
-    print(f"UP 六星: {c.get(f'六星·{UP_NAME}', 0)} 张")
-    print(f"歪六星: {c.get('六星·常驻', 0)} 张")
-    if first_6:
-        print(f"最早六星: 第 {first_6} 抽")
-    print(f"当前垫抽: {pity}")
-    print(f"历史累计: {total_hist} 抽")
+    <span class="pl-en">print</span>(<span class="pl-s">f"<span class="pl-cce">\n</span>总计六星: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">six_count</span><span class="pl-kos">}</span></span> 张"</span>)
+    <span class="pl-en">print</span>(<span class="pl-s">f"UP 六星: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">c</span>.<span class="pl-c1">get</span>(<span class="pl-s">f'六星·<span class="pl-s1"><span class="pl-kos">{</span><span class="pl-c1">UP_NAME</span><span class="pl-kos">}</span></span>'</span>, <span class="pl-c1">0</span>)<span class="pl-kos">}</span></span> 张"</span>)
+    <span class="pl-en">print</span>(<span class="pl-s">f"歪六星: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">c</span>.<span class="pl-c1">get</span>(<span class="pl-s">'六星·常驻'</span>, <span class="pl-c1">0</span>)<span class="pl-kos">}</span></span> 张"</span>)
+    <span class="pl-k">if</span> <span class="pl-s1">first_6</span>:
+        <span class="pl-en">print</span>(<span class="pl-s">f"最早六星: 第 <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">first_6</span><span class="pl-kos">}</span></span> 抽"</span>)
+    <span class="pl-en">print</span>(<span class="pl-s">f"当前垫抽: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">pity</span><span class="pl-kos">}</span></span>"</span>)
+    <span class="pl-en">print</span>(<span class="pl-s">f"历史累计: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">total_hist</span><span class="pl-kos">}</span></span> 抽"</span>)
 
-    # ---------- 存盘 ----------
-    save_data(total_hist, pity)
-    print("\n数据已保存，下次继续累计。")
+    <span class="pl-c"># ---------- 存盘 ----------</span>
+    <span class="pl-en">save_data</span>(<span class="pl-s1">total_hist</span>, <span class="pl-s1">pity</span>)
+    <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>数据已保存，下次继续累计。"</span>)
 
-if __name__ == "__main__":
-    main()
-</code></pre>
+<span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
+    <span class="pl-en">main</span>()</pre></div>
 <p>运行结果差不多如下</p>
-<pre lang="txt" class="notranslate"><code class="notranslate">===== 统计 =====
+<div class="highlight highlight-text-adblock"><pre class="notranslate">===== 统计 =====
 三星: 25 张
 四星: 3 张
 五星: 1 张
@@ -701,8 +696,7 @@ if __name__ == "__main__":
 总计六星: 2 张
 最早六星: 第 29 抽
 最晚六星: 第 300 抽（井兑换）
-当前垫抽数: 1
-</code></pre>
+当前垫抽数: 1</pre></div>
 <p>说实话，这玩意看的我都头痛（拿AI搞得）😗，没事，只要搞熟了你也行</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
